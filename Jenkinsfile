@@ -27,10 +27,14 @@ pipeline {
     stage("Docker build && push image to Nexus repo") {
       steps {
         script {
-          sh '''
-            docker build -t springapp:${VERSION}
-            docker images
-          '''
+          withCredentials([string(credentialsId: 'nexus-secret', variable: 'token-nexus')]) {
+            sh '''
+            docker build -t 65.2.182.14:8083/springapp:${VERSION} .
+            docker login -u admin -p $token-nexus 65.2.182.14:8083
+            docker push 65.2.182.14:8083/springapp:${VERSION}
+            docker rmi 65.2.182.14:8083/springapp:${VERSION}
+            '''
+          }
         }        
       }
     }
