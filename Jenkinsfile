@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage("Build && Sonarwube analysis {
+    stage("Build && Sonarwube analysis") {
       agent {
         docker {
 	  image 'maven'
