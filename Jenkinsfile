@@ -3,15 +3,16 @@ pipeline {
     stages {
         stage("Build && Sonarqube analysis") {
             agent {
-                docker { image 'maven' }
+                docker { image 'maven'
                 }
-                steps {
-                    script {
-                        withSonarQubeEnv(credentialsId: 'secret-token') {
-                            sh 'mvn clean package sonar:sonar'
-                        }
+            }
+            steps {
+                script {
+                    withSonarQubeEnv(credentialsId: 'secret-token') {
+                        sh 'mvn clean package sonar:sonar'
                     }
                 }
+            }
         }
 
         stage("Quality Gate Check") {
