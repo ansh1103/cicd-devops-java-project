@@ -3,11 +3,11 @@ pipeline {
   stages {
     stage("Build && Sonarwube analysis") {
       agent {
-        any { image 'maven' }}
+        docker { image 'maven' }}
         steps {
 	  script {
 	    withSonarQubeEnv(credentialsId: 'secret-token') {
-	      sh 'maven clean package sonar:sonar'
+	      sh 'mvn clean package sonar:sonar'
 	    }
 	  }
         }
